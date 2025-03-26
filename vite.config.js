@@ -20,9 +20,7 @@ export default defineConfig({
               main: resolve(__dirname, 'index.html'),
               house: resolve(__dirname, '/hauntedhouse/index.html'),
             },
-            globals: {
-                THREE: 'three',
-              },
+            external: ['three'],
           },
     },
 })
