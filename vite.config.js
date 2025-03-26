@@ -21,7 +21,7 @@ export default defineConfig({
               main: resolve(__dirname, 'index.html'),
               house: resolve(__dirname, '/hauntedhouse/index.html'),
             },
-            external: ['three'],
+            external: ['three', 'gsap', 'tweakpane'],
           },
     },
 })
