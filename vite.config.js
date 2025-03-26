@@ -5,7 +5,6 @@ import { defineConfig } from 'vite'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
-    base:'three-js-scenes', 
     server:
     {
         host: true, // Open to local network and display URL
@@ -21,6 +20,9 @@ export default defineConfig({
               main: resolve(__dirname, 'index.html'),
               house: resolve(__dirname, '/hauntedhouse/index.html'),
             },
+            globals: {
+                THREE: 'three',
+              },
           },
     },
 })
