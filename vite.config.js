@@ -5,7 +5,7 @@ import { defineConfig } from 'vite'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
-    publicDir: '../public/', // Path from "root" to static assets (files that are served as they are)
+    base:'three-js-scenes',
     server:
     {
         host: true, // Open to local network and display URL
