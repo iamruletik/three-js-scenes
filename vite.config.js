@@ -4,8 +4,7 @@ import { defineConfig } from 'vite'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-export default {
-    root: '', // Sources files (typically where index.html is)
+export default defineConfig({
     publicDir: '../public/', // Path from "root" to static assets (files that are served as they are)
     server:
     {
@@ -24,4 +23,4 @@ export default {
             },
           },
     },
-}
+})
