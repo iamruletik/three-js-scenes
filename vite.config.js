@@ -1,4 +1,3 @@
-import restart from 'vite-plugin-restart'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
@@ -25,8 +24,4 @@ export default {
             },
           },
     },
-    plugins:
-    [
-        restart({ restart: [ '../static/**', ] }) // Restart server on static file change
-    ],
 }
