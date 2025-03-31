@@ -9,6 +9,7 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import {Pane} from 'tweakpane'
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js' //RGBE Loader for a environment map
 import { GTAOPass } from 'three/addons/postprocessing/GTAOPass.js';
+import hdriTexture from './textures/hdri.hdr'
 
 console.log(TextureUtils)
 
@@ -43,7 +44,7 @@ const scene = new THREE.Scene()
 scene.fog = new THREE.FogExp2('#1B1E23', 0.1)
 //scene.fog = new THREE.Fog('#1B1E23', 0.5, 15)
 const rgbeLoader = new RGBELoader()
-rgbeLoader.load('./textures/hdri.hdr', (environmentMap) => {
+rgbeLoader.load(hdriTexture, (environmentMap) => {
     console.log(environmentMap)
     environmentMap.mapping = THREE.EquirectangularReflectionMapping
     scene.background = environmentMap

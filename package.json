@@ -27,6 +27,7 @@
     "gsap": "^3.12.7",
     "three": "^0.174.0",
     "tweakpane": "^4.0.5",
+    "vite-multiple-assets": "^2.2.5",
     "vite-plugin-restart": "^0.4.2"
   }
 }

@@ -26,6 +26,7 @@ export default {
             },
         }
     },
+    assetsInclude: ['**/*.hdr'],
     plugins:
     [
         restart({ restart: [ '../static/**', ] }) // Restart server on static file change
