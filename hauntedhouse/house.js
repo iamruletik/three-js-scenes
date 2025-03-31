@@ -3,13 +3,12 @@ import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js'
 import * as TextureUtils from 'three/src/extras/TextureUtils.js'
 import gsap from 'gsap'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPixelatedPass } from 'three/addons/postprocessing/RenderPixelatedPass.js';
-import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js'
+import { RenderPixelatedPass } from 'three/addons/postprocessing/RenderPixelatedPass.js'
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js'
 import {Pane} from 'tweakpane'
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js' //RGBE Loader for a environment map
-import { GTAOPass } from 'three/addons/postprocessing/GTAOPass.js';
-import hdriTexture from './textures/hdri.hdr'
+import { GTAOPass } from 'three/addons/postprocessing/GTAOPass.js'
 
 console.log(TextureUtils)
 
@@ -44,7 +43,7 @@ const scene = new THREE.Scene()
 scene.fog = new THREE.FogExp2('#1B1E23', 0.1)
 //scene.fog = new THREE.Fog('#1B1E23', 0.5, 15)
 const rgbeLoader = new RGBELoader()
-rgbeLoader.load(hdriTexture, (environmentMap) => {
+rgbeLoader.load('/hauntedhouse/hdri.hdr', (environmentMap) => {
     console.log(environmentMap)
     environmentMap.mapping = THREE.EquirectangularReflectionMapping
     scene.background = environmentMap
@@ -65,16 +64,16 @@ const controls = new OrbitControls( camera, canvas )
 //My Scene
 
 
-const testTexture = textureLoader.load('./textures/board.jpg')
+const testTexture = textureLoader.load('/hauntedhouse/board.jpg')
 testTexture.colorSpace = THREE.SRGBColorSpace
 testTexture.minFilter = THREE.NearestFilter
 testTexture.magFilter = THREE.NearestFilter
 testTexture.wrapS = THREE.RepeatWrapping
 testTexture.wrapT = THREE.RepeatWrapping
 
-const floorAlphaTexture = textureLoader.load('./textures/alpha.jpg')
-const floorTexture = textureLoader.load('./textures/grass2.png')
-const floorNormalTexture = textureLoader.load('./textures/grass2-normal.png')
+const floorAlphaTexture = textureLoader.load('/hauntedhouse/alpha.jpg')
+const floorTexture = textureLoader.load('/hauntedhouse/grass2.png')
+const floorNormalTexture = textureLoader.load('/hauntedhouse/grass2-normal.png')
 floorTexture.colorSpace = THREE.SRGBColorSpace
 floorTexture.wrapS = THREE.RepeatWrapping
 floorTexture.wrapT = THREE.RepeatWrapping
@@ -86,7 +85,7 @@ floorNormalTexture.repeat.set(8,8)
 
 
 //const basicMaterial = new THREE.MeshPhongMaterial({ wireframe: false, map: TextureUtils.cover(testTexture)})
-const basicTexture = textureLoader.load('./textures/baseColor.jpg')
+const basicTexture = textureLoader.load('/hauntedhouse/baseColor.jpg')
 basicTexture.colorSpace = THREE.SRGBColorSpace
 basicTexture.wrapS = THREE.RepeatWrapping
 basicTexture.wrapT = THREE.RepeatWrapping
@@ -116,8 +115,8 @@ scene.add(floorGroup)
 
 
 //Grass
-const grassBladesAlphaTexture = textureLoader.load('./textures/grass_blades.jpg')
-const grassBladesColorTexture = textureLoader.load('./textures/grass_blades_color.jpg')
+const grassBladesAlphaTexture = textureLoader.load('/hauntedhouse/grass_blades.jpg')
+const grassBladesColorTexture = textureLoader.load('/hauntedhouse/grass_blades_color.jpg')
 grassBladesColorTexture.colorSpace = THREE.SRGBColorSpace
 grassBladesColorTexture.minFilter = THREE.NearestFilter
 grassBladesColorTexture.magFilter = THREE.NearestFilter
@@ -167,8 +166,8 @@ floorGroup.add(grassBladeMesh,grassBladeMeshB)
 
 //HOUSE
 //House Base
-const houseBaseColorTexture = textureLoader.load('./textures/wall.jpg')
-const houseBaseNormal = textureLoader.load('./textures/wall-normal-2.png')
+const houseBaseColorTexture = textureLoader.load('/hauntedhouse/wall.jpg')
+const houseBaseNormal = textureLoader.load('/hauntedhouse/wall-normal-2.png')
 houseBaseColorTexture.colorSpace = THREE.SRGBColorSpace
 houseBaseColorTexture.minFilter = THREE.NearestFilter
 houseBaseColorTexture.magFilter = THREE.NearestFilter
@@ -267,8 +266,8 @@ for ( let i = 0; i < roofVerticesPositionAttribute.count; i ++ ) {
 roofGeometry = BufferGeometryUtils.mergeVertices(roofGeometry,1)
 
 //Textures
-const roofMeshColor = textureLoader.load('./textures/roof5.png')
-const roofMeshNormal = textureLoader.load('./textures/roof5-normal.png')
+const roofMeshColor = textureLoader.load('/hauntedhouse/roof5.png')
+const roofMeshNormal = textureLoader.load('/hauntedhouse/roof5-normal.png')
 roofMeshColor.colorSpace = THREE.SRGBColorSpace
 roofMeshColor.minFilter = THREE.NearestFilter
 roofMeshColor.magFilter = THREE.NearestFilter
@@ -550,17 +549,17 @@ const doorSizes = {
     depth: 0.9
 }
 
-const doorTexture = textureLoader.load('./textures/Door_01_White.png')
+const doorTexture = textureLoader.load('/hauntedhouse/Door_01_White.png')
 doorTexture.colorSpace = THREE.SRGBColorSpace
 doorTexture.minFilter = THREE.NearestFilter
 doorTexture.magFilter = THREE.NearestFilter
 doorTexture.wrapS = THREE.RepeatWrapping
 doorTexture.wrapT = THREE.RepeatWrapping
-const doorNormalTexture = textureLoader.load('./textures/door-normal.png')
+const doorNormalTexture = textureLoader.load('/hauntedhouse/door-normal.png')
 doorTexture.colorSpace = THREE.SRGBColorSpace
 doorTexture.minFilter = THREE.NearestFilter
 doorTexture.magFilter = THREE.NearestFilter
-const doorRoughnessTexture = textureLoader.load('./textures/doorRoughness.jpg')
+const doorRoughnessTexture = textureLoader.load('/hauntedhouse/doorRoughness.jpg')
 
 const doorMaterial = new THREE.MeshStandardMaterial({
                                                     map: doorTexture,
@@ -639,9 +638,9 @@ const windowSizes = {
     depth: 0.6
 }
 
-const windowTexture = textureLoader.load('./textures/window.jpg')
-const windowRoughnessTexture = textureLoader.load('./textures/windowRoughness.jpg')
-const windowsNormalTexture = textureLoader.load('./textures/windowNormal.png')
+const windowTexture = textureLoader.load('/hauntedhouse/window.jpg')
+const windowRoughnessTexture = textureLoader.load('/hauntedhouse/windowRoughness.jpg')
+const windowsNormalTexture = textureLoader.load('/hauntedhouse/windowNormal.png')
 windowTexture.colorSpace = THREE.SRGBColorSpace
 
 const windowMaterial = new THREE.MeshStandardMaterial({
@@ -677,9 +676,9 @@ porchGroup.add(windows[0], windows[1], windows[2], windows[3])
 
 
 
-const roofWindowTexture = textureLoader.load('./textures/roofWindow.jpg')
-const roofWindowRoughnessTexture = textureLoader.load('./textures/roofWindowRoughness.jpg')
-const roofWindowNormalTexture = textureLoader.load('./textures/roofWindowNormal.png')
+const roofWindowTexture = textureLoader.load('/hauntedhouse/roofWindow.jpg')
+const roofWindowRoughnessTexture = textureLoader.load('/hauntedhouse/roofWindowRoughness.jpg')
+const roofWindowNormalTexture = textureLoader.load('/hauntedhouse/roofWindowNormal.png')
 roofWindowTexture.colorSpace = THREE.SRGBColorSpace
 
 const roofWindowMaterial = new THREE.MeshStandardMaterial({
@@ -702,11 +701,11 @@ roofGroup.add(roofWindow)
 
 
 //Attic
-const atticTexture = textureLoader.load('./textures/test.jpg')
+const atticTexture = textureLoader.load('/hauntedhouse/test.jpg')
 atticTexture.colorSpace = THREE.SRGBColorSpace
 
-const atticNormalTexture = textureLoader.load('./textures/testnormal.png')
-const atticAlphaTexture = textureLoader.load('./textures/testAlpha.jpg')
+const atticNormalTexture = textureLoader.load('/hauntedhouse/testnormal.png')
+const atticAlphaTexture = textureLoader.load('/hauntedhouse/testAlpha.jpg')
 
 const atticMaterial = new THREE.MeshStandardMaterial({ 
                                                         map: atticTexture,
@@ -753,9 +752,9 @@ const garageSizes = {
     depth: houseMeasurements.depth / 3
 }
 
-const garageTexture = textureLoader.load('./textures/garage.jpg')
+const garageTexture = textureLoader.load('/hauntedhouse/garage.jpg')
 garageTexture.colorSpace = THREE.SRGBColorSpace
-const garageNormalTexture = textureLoader.load('./textures/garageNormal.png')
+const garageNormalTexture = textureLoader.load('/hauntedhouse/garageNormal.png')
 
 
 const garageMaterial = new THREE.MeshPhongMaterial({
@@ -804,11 +803,11 @@ garageRoofColumns[1].position.set(houseMeasurements.width / 1.9, houseMeasuremen
 garageGroup.add(garageRoofColumns[0], garageRoofColumns[1])
 
 //Trees
-const treeTexture = textureLoader.load('./textures/tree.jpg')
+const treeTexture = textureLoader.load('/hauntedhouse/tree.jpg')
 treeTexture.colorSpace = THREE.SRGBColorSpace
 treeTexture.minFilter = THREE.NearestFilter
 treeTexture.magFilter = THREE.NearestFilter
-const treeAlphaTexture = textureLoader.load('./textures/treeAlpha.jpg')
+const treeAlphaTexture = textureLoader.load('/hauntedhouse/treeAlpha.jpg')
 
 
 const treeMaterial = new THREE.MeshPhongMaterial({
