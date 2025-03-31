@@ -43,7 +43,7 @@ const scene = new THREE.Scene()
 scene.fog = new THREE.FogExp2('#1B1E23', 0.1)
 //scene.fog = new THREE.Fog('#1B1E23', 0.5, 15)
 const rgbeLoader = new RGBELoader()
-rgbeLoader.load('./textures/hdri.hdr', (environmentMap) => {
+rgbeLoader.load('textures/hdri.hdr', (environmentMap) => {
     console.log(environmentMap)
     environmentMap.mapping = THREE.EquirectangularReflectionMapping
     scene.background = environmentMap
