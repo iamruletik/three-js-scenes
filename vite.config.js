@@ -23,6 +23,7 @@ export default {
               main: resolve(__dirname, 'index.html'),
               hauntedhouse: resolve(__dirname, '/hauntedhouse/index.html'),
               particlestest: resolve(__dirname, '/particlestest/index.html'),
+              galaxy_generator: resolve(__dirname, '/galaxy_generator/index.html'),
             },
         }
     },

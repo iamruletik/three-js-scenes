@@ -26,6 +26,9 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio,2))//Setting pixel ratio 
 
+//Texture Loader
+const textureLoader = new THREE.TextureLoader()
+
 //Scene
 const scene = new THREE.Scene()
 
@@ -39,13 +42,20 @@ const controls = new OrbitControls( camera, canvas )
 
 
 //My Scene
-const particlesCount = 500
+const particlesCount = 10000
+const particleAlphaMap = textureLoader.load('/particleAlpha.jpg')
+console.log(particleAlphaMap)
 const particleObject = {
     geometry: new THREE.BufferGeometry(),
     positionArray: new Float32Array(particlesCount * 3),
     material: new THREE.PointsMaterial({
-                                                    size: 1,
-                                                    sizeAttenuation: false
+                                                    size: 0.1,
+                                                    color:0xFFFFFF,
+                                                    sizeAttenuation: true,
+                                                    transparent: true,
+                                                    alphaMap: particleAlphaMap,
+                                                    alphaTest: 0.1,
+                                                    vertexColors: true
                                             })
 }
 
@@ -56,6 +66,7 @@ for (let i = 0; i < particlesCount; i++) {
 }
 
 particleObject.geometry.setAttribute('position', new THREE.BufferAttribute(particleObject.positionArray, 3))
+particleObject.geometry.setAttribute('color', new THREE.BufferAttribute(particleObject.positionArray, 3))
 
 
 const particles = new THREE.Points(particleObject.geometry, particleObject.material)
