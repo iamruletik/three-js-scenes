@@ -24,6 +24,7 @@ export default {
               hauntedhouse: resolve(__dirname, '/hauntedhouse/index.html'),
               particlestest: resolve(__dirname, '/particlestest/index.html'),
               galaxy_generator: resolve(__dirname, '/galaxy_generator/index.html'),
+              scrollAnimation: resolve(__dirname, '/scrollAnimation/index.html')
             },
         }
     },

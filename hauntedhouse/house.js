@@ -142,6 +142,8 @@ const positionMatrix = new THREE.Matrix4()
 grassBladeMesh.position.y = grassBladesSizes.height / 1
 grassBladeMeshB.position.y = grassBladesSizes.height / 1
 grassBladeMeshB.scale.y += 1.05
+grassBladeMesh.frustumCulled = false
+grassBladeMeshB.frustumCulled = false
 
 for (let i = 0; i < instanceCount; i++) {
 
