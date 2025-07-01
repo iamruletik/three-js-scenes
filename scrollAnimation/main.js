@@ -1,7 +1,9 @@
 import * as THREE from 'three'
-import gsap from 'gsap'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js'
 import {Pane} from 'tweakpane'
+import gsap from 'gsap'
+
 
 //TweakPane Gui
 const pane = new Pane()
@@ -29,12 +31,34 @@ const scene = new THREE.Scene()
 
 //Camera Settings
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height) // FOV vertical angle, aspect ratio with/height
-camera.position.set(1,1,1)
+camera.position.set(30,30,30)
 scene.add(camera)
+
+const ambient = new THREE.AmbientLight(0xFFFFFF, 1)
+const directional = new THREE.DirectionalLight(0xFFFFFF, 1)
+directional.position.set(2,8,-3)
+paneFolder.addBinding(directional.position, "x")
+paneFolder.addBinding(directional.position, "y")
+paneFolder.addBinding(directional.position, "z")
+scene.add(ambient, directional)
 
 const controls = new OrbitControls( camera, canvas )
 
+const gltfLoader = new GLTFLoader()
 
+
+gltfLoader.load(
+    //'/macbookModel/macbookOptimized.gltf',
+    '/macbookModel/macbookOptimized.glb',
+    (gltf) => {
+        console.log(gltf.scene)
+        const children = [...gltf.scene.children]
+        
+        for (const child of children) {
+            scene.add(child)
+        }
+    }
+)
 
 //My Scene
 
