@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js'
 import {Pane} from 'tweakpane'
 import gsap from 'gsap'
 
@@ -44,12 +45,19 @@ scene.add(ambient, directional)
 
 const controls = new OrbitControls( camera, canvas )
 
+
+const dracoLoader = new DRACOLoader() 
+dracoLoader.setDecoderPath('/draco/')
+
 const gltfLoader = new GLTFLoader()
+gltfLoader.setDRACOLoader(dracoLoader)
+
 
 
 gltfLoader.load(
     //'/macbookModel/macbookOptimized.gltf',
-    '/macbookModel/macbookOptimized.glb',
+    //'/macbookModel/macbookOptimized.glb',
+    '/macbookOptimizedCompressed.glb',
     (gltf) => {
         console.log(gltf.scene)
         const children = [...gltf.scene.children]
