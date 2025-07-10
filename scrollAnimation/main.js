@@ -45,6 +45,7 @@ scene.add(ambient, directional)
 
 const controls = new OrbitControls( camera, canvas )
 
+let mixer = null
 
 const dracoLoader = new DRACOLoader() 
 dracoLoader.setDecoderPath('/draco/')
@@ -57,11 +58,17 @@ gltfLoader.setDRACOLoader(dracoLoader)
 gltfLoader.load(
     //'/macbookModel/macbookOptimized.gltf',
     //'/macbookModel/macbookOptimized.glb',
-    '/macbookOptimizedCompressed.glb',
+    //'/macbookOptimizedCompressed.glb',
+    '/macbookDracoAnimated.glb',
+    
     (gltf) => {
-        console.log(gltf.scene)
+        console.log(gltf)
+        mixer = new THREE.AnimationMixer(gltf.scene)
+        const action = mixer.clipAction(gltf.animations[0])
+        action.play()
         const children = [...gltf.scene.children]
-        
+
+    
         for (const child of children) {
             scene.add(child)
         }
@@ -84,14 +91,20 @@ gltfLoader.load(
 
 
 
-
+let previousTime = 0
 
 //Animation Loop Function
 const tick = () => {
 
     const elapsedTime = clock.getElapsedTime() //Built in function in seconds since start
+    const deltaTime = elapsedTime - previousTime
+    previousTime = elapsedTime
 
     camera.lookAt(new THREE.Vector3()) //Empty Vector3 method resul in 0 0 0  Vector, basically center of the scene
+
+    //Update Mixer
+    if (mixer !== null) { mixer.update(deltaTime) }
+    
 
     //Render Function
     renderer.render(scene, camera) //by default all objects will appear at center of the scene in 0 0 0 coordinates, meaning camera will be at the center too
