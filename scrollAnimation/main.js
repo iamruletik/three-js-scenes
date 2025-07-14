@@ -54,7 +54,7 @@ exrLoader.load('/macbook-hdri.exr', (environmentMap) => {
     environmentMap.mapping = THREE.EquirectangularReflectionMapping
     //scene.background = environmentMap
     scene.environment = environmentMap
-    scene.environmentIntensity = 0.4
+    scene.environmentIntensity = 0.2
     //scene.backgroundIntensity = 0.02
 }) 
 
