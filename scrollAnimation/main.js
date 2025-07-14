@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js'
+import { EXRLoader } from 'three/addons/loaders/EXRLoader.js' 
 import {Pane} from 'tweakpane'
 import gsap from 'gsap'
 
@@ -41,11 +42,21 @@ directional.position.set(2,8,-3)
 paneFolder.addBinding(directional.position, "x")
 paneFolder.addBinding(directional.position, "y")
 paneFolder.addBinding(directional.position, "z")
-scene.add(ambient, directional)
+//scene.add(ambient, directional)
 
 const controls = new OrbitControls( camera, canvas )
 
 let mixer = null
+
+const exrLoader = new EXRLoader()
+exrLoader.load('/macbook-hdri.exr', (environmentMap) => {
+    console.log(environmentMap)
+    environmentMap.mapping = THREE.EquirectangularReflectionMapping
+    //scene.background = environmentMap
+    scene.environment = environmentMap
+    scene.environmentIntensity = 0.4
+    //scene.backgroundIntensity = 0.02
+}) 
 
 const dracoLoader = new DRACOLoader() 
 dracoLoader.setDecoderPath('/draco/')
@@ -65,6 +76,8 @@ gltfLoader.load(
         console.log(gltf)
         mixer = new THREE.AnimationMixer(gltf.scene)
         const action = mixer.clipAction(gltf.animations[0])
+        action.setLoop(THREE.LoopOnce)
+        action.clampWhenFinished = true
         action.play()
         const children = [...gltf.scene.children]
 
