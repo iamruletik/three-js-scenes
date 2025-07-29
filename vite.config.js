@@ -3,6 +3,7 @@ import wasm from 'vite-plugin-wasm'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
+import topLevelAwait from 'vite-plugin-top-level-await'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -34,6 +35,7 @@ export default {
     plugins:
     [
         restart({ restart: [ '../static/**', ] }), // Restart server on static file change
-        wasm()
+        wasm(),
+        topLevelAwait()
     ],
 }
