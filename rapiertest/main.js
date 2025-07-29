@@ -30,12 +30,14 @@ const scene = new THREE.Scene()
 
 //Camera Settings
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height) // FOV vertical angle, aspect ratio with/height
-camera.position.set(1,1,1)
+camera.position.set(5,5,5)
 scene.add(camera)
 
 const controls = new OrbitControls( camera, canvas )
 
-
+const spotLight = new THREE.SpotLight(0xDCE1ED, 10, 10, Math.PI * 0.5, 0, 1)
+spotLight.position.set(0,5,0)
+scene.add(spotLight)
 
 //My Scene
 // Use the RAPIER module here.
@@ -48,15 +50,31 @@ world.createCollider(groundColliderDesc);
 
 // Create a dynamic rigid-body.
 let rigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
-    .setTranslation(0.0, 1.0, 0.0);
+    .setTranslation(0.0, 5.0, 0.0)
 let rigidBody = world.createRigidBody(rigidBodyDesc);
 
 // Create a cuboid collider attached to the dynamic rigidBody.
-let colliderDesc = RAPIER.ColliderDesc.cuboid(0.5, 0.5, 0.5);
+let colliderDesc = RAPIER.ColliderDesc.cuboid(1,1,1);
 let collider = world.createCollider(colliderDesc, rigidBody);
 
 
+let cubeMesh = new THREE.Mesh(
+    new THREE.BoxGeometry(1,1,1),
+    new THREE.MeshPhongMaterial()
+)
+cubeMesh.castShadow = true
+cubeMesh.position.copy(rigidBody.translation())
+scene.add(cubeMesh)
 
+
+let floor = new THREE.Mesh(
+    new THREE.BoxGeometry(10,0.1,10),
+    new THREE.MeshPhongMaterial({color: '#DDDDDD'})
+)
+floor.receiveShadow = true
+floor.position.copy(groundColliderDesc.translation)
+console.log(groundColliderDesc)
+scene.add(floor)
 
 
 
@@ -66,13 +84,14 @@ let collider = world.createCollider(colliderDesc, rigidBody);
 
 //Animation Loop Function
 const tick = () => {
-
     // Step the simulation forward.  
     world.step();
 
     // Get and print the rigid-body's position.
     let position = rigidBody.translation();
     console.log("Rigid-body position: ", position.x, position.y);
+
+    cubeMesh.position.copy(rigidBody.translation())
 
 
     const elapsedTime = clock.getElapsedTime() //Built in function in seconds since start
