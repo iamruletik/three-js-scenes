@@ -1,4 +1,5 @@
 import restart from 'vite-plugin-restart'
+import wasm from 'vite-plugin-wasm'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
@@ -24,13 +25,15 @@ export default {
               hauntedhouse: resolve(__dirname, '/hauntedhouse/index.html'),
               particlestest: resolve(__dirname, '/particlestest/index.html'),
               galaxy_generator: resolve(__dirname, '/galaxy_generator/index.html'),
-              scrollAnimation: resolve(__dirname, '/scrollAnimation/index.html')
+              scrollAnimation: resolve(__dirname, '/scrollAnimation/index.html'),
+              rapiertest: resolve(__dirname, '/rapiertest/index.html')
             },
         }
     },
     assetsInclude: ['**/*.hdr'],
     plugins:
     [
-        restart({ restart: [ '../static/**', ] }) // Restart server on static file change
+        restart({ restart: [ '../static/**', ] }), // Restart server on static file change
+        wasm()
     ],
 }
