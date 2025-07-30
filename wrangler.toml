@@ -1,3 +1,4 @@
 # Top-level configuration
 name = "ruletikscenes"
 main = "src/main.js"
+compatibility_date = "2025-07-30"
