@@ -10,6 +10,10 @@ const paneFolder = pane.addFolder({
                                         title: 'Tweakpane GUI' 
                                     })
 
+//Texture Loader
+let textureLoader = new THREE.TextureLoader()
+let ballTexture = textureLoader.load('/ball_texture.jpg')
+
 //Canvas Element
 const canvas = document.querySelector('canvas.webgl')
 const clock = new THREE.Clock()
@@ -24,55 +28,68 @@ const renderer = new THREE.WebGLRenderer({
                                             })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio,2))//Setting pixel ratio 
+renderer.shadowMap.enabled = true
 
 //Scene
 const scene = new THREE.Scene()
 
 //Camera Settings
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height) // FOV vertical angle, aspect ratio with/height
-camera.position.set(5,5,5)
+camera.position.set(10,10,10)
 scene.add(camera)
 
 const controls = new OrbitControls( camera, canvas )
 
-const spotLight = new THREE.SpotLight(0xDCE1ED, 10, 10, Math.PI * 0.5, 0, 1)
-spotLight.position.set(0,5,0)
+const spotLight = new THREE.SpotLight(0xffffff, 10, 1000, Math.PI * 0.4, 0.25, 1)
+
+spotLight.position.set(0,15,0)
+spotLight.castShadow = true
+spotLight.shadow.radius = 5
+spotLight.shadow.mapSize.width = 2048
+spotLight.shadow.mapSize.height = 2048
 scene.add(spotLight)
 
-const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.5)
-scene.add(ambientLight)
 
 //My Scene
 // Use the RAPIER module here.
-let gravity = { x: 0.0, y: -9.81, z: 0.0 };
-let world = new RAPIER.World(gravity);
+let gravity = { x: 0.0, y: -9.81, z: 0.0 }
+let world = new RAPIER.World(gravity)
 
 // Create the ground
-let groundColliderDesc = RAPIER.ColliderDesc.cuboid(10.0, 0.1, 10.0);
+let groundColliderDesc = RAPIER.ColliderDesc.cuboid(100.0, 0.1, 100.0);
 world.createCollider(groundColliderDesc);
 
 // Create a dynamic rigid-body.
 let rigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
-    .setTranslation(0.0, 5.0, 0.0)
-let rigidBody = world.createRigidBody(rigidBodyDesc);
+    .setTranslation(0.0, 1.0, 0.0)
+    .setLinvel(-5.0, 10.0, -5.0)
+    .setAngvel({ x: 3.0, y: 3.0, z: 3.0 })
+    .setAdditionalMass(0.3)
+    .setLinearDamping(0.2)
+    .setAngularDamping(0.2)
+let rigidBody = world.createRigidBody(rigidBodyDesc)
+rigidBody.addForce({ x: -2.0, y: 10.0, z: 0.0 }, true)
+
 
 // Create a cuboid collider attached to the dynamic rigidBody.
-let colliderDesc = RAPIER.ColliderDesc.cuboid(1,1,1);
-let collider = world.createCollider(colliderDesc, rigidBody);
+let colliderDesc = RAPIER.ColliderDesc.ball(1).setDensity(1)
+let collider = world.createCollider(colliderDesc, rigidBody)
 
 
-let cubeMesh = new THREE.Mesh(
-    new THREE.BoxGeometry(1,1,1),
-    new THREE.MeshPhongMaterial()
+let ballMesh = new THREE.Mesh(
+    new THREE.SphereGeometry(1, 32, 32),
+    new THREE.MeshPhongMaterial({
+        map: ballTexture
+    })
 )
-cubeMesh.castShadow = true
-cubeMesh.position.copy(rigidBody.translation())
-scene.add(cubeMesh)
+ballMesh.castShadow = true
+ballMesh.position.copy(rigidBody.translation())
+scene.add(ballMesh)
 
 
 let floor = new THREE.Mesh(
-    new THREE.BoxGeometry(10,0.1,10),
-    new THREE.MeshPhongMaterial({color: '#DDDDDD'})
+    new THREE.BoxGeometry(100,0.05,100),
+    new THREE.MeshPhongMaterial()
 )
 floor.receiveShadow = true
 floor.position.copy(groundColliderDesc.translation)
@@ -92,10 +109,10 @@ const tick = () => {
 
     // Get and print the rigid-body's position.
     let position = rigidBody.translation();
-    console.log("Rigid-body position: ", position.x, position.y);
+    //console.log("Rigid-body position: ", position.x, position.y);
 
-    cubeMesh.position.copy(rigidBody.translation())
-
+    ballMesh.position.copy(rigidBody.translation())
+    ballMesh.setRotationFromQuaternion(rigidBody.rotation())
 
     const elapsedTime = clock.getElapsedTime() //Built in function in seconds since start
 
