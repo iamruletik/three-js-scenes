@@ -39,6 +39,9 @@ const spotLight = new THREE.SpotLight(0xDCE1ED, 10, 10, Math.PI * 0.5, 0, 1)
 spotLight.position.set(0,5,0)
 scene.add(spotLight)
 
+const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.5)
+scene.add(ambientLight)
+
 //My Scene
 // Use the RAPIER module here.
 let gravity = { x: 0.0, y: -9.81, z: 0.0 };
